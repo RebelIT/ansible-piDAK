@@ -1,0 +1,17 @@
+---
+packages:
+  git:
+    pkg: "git"
+    ver: "latest"
+  curl:
+    pkg: "curl"
+    ver: "latest"
+  unclutter:
+    pkg: "unclutter"
+    ver: "latest"
+  chromium_mods:
+    pkg: "rpi-chromium-mods"
+    ver: "latest"
+  chromium:
+    pkg: "chromium-bsu"
+    ver: "latest"

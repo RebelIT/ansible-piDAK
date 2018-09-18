@@ -1,0 +1,51 @@
+---
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Update host file
+  blockinfile:
+    path: /etc/hosts
+    marker: "##<!-- {mark} ANSIBLE MANAGED -->"
+    block: |
+      127.0.1.1	{{ hostname }}
+
+- name: Fully Update Distribution
+  apt:
+    upgrade: yes
+    update_cache: yes
+  when: fully_update
+
+- name: Install common packages
+  apt:
+    name: "{{ item.value.pkg }}"
+    state: "{{ item.value.ver }}"
+    update_cache: yes
+  with_dict: "{{ packages }}"
+
+- name: Set keyboard layout
+  blockinfile:
+    path: /etc/default/keybaord
+    marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: |
+      XKBLAYOUT=\"us\"
+    create: yes
+
+- name: Set timezone to US/Central
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Check wifi power control
+  command: grep "iwconfig wlan0 power off" /etc/rc.local
+  register: wifi_pwr_off
+  check_mode: no
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable wifi power control
+  blockinfile:
+    path: /etc/rc.local
+    marker: "##<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+    block: |
+      iwconfig wlan0 power off
+  when: wifi_pwr_off|failed

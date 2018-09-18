@@ -1,0 +1,11 @@
+---
+- hosts:
+    piCalendar
+  connection: ssh
+  remote_user: "{{ ssh_user }}"
+
+  roles:
+    - common
+    - reboot
+    - dak_calendar
+    - reboot

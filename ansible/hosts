@@ -1,0 +1,24 @@
+[all:vars]
+  ssh_user=pi
+  ansible_become=true
+
+[piDAK:vars]
+
+[piDAK:children]
+  kitchen
+
+[kitchen:vars]
+  hostname=piCalendar01
+  timezone=US/Central
+  fully_update=true
+  wkday_am_on=6
+  wkday_am_off=9
+  wkday_pm_on=4
+  wkday_pm_off=9
+  wknd_am_on=7
+  wknd_pm_off=9
+  screen_overscan_left=30
+  screen_overscan_right=30
+
+[kitchen]
+  ip.ip.ip.ip
