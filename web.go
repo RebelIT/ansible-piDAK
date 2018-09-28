@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/gorilla/mux"
+	"html"
 	"log"
 	"net/http"
 	"os/exec"
@@ -17,11 +18,7 @@ func main(){
 	namespace.HandleFunc("/action/shutdown", aShutdown)
 	namespace.HandleFunc("/action/update", aUpdate)
 
-
-	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
-	//	fmt.Fprintf(w, "Success, %q", html.EscapeString(r.URL.Path))
-	//})
-	log.Fatal(http.ListenAndServe(":8081",nil))
+	log.Fatal(http.ListenAndServe(":8081", namespace))
 }
 
 //Namespace handlers
@@ -30,42 +27,43 @@ func isAlive (w http.ResponseWriter, r *http.Request){
 }
 
 func action (w http.ResponseWriter, r *http.Request){
-	fmt.Fprintln(w, "available endpoints:")
-	fmt.Fprintln(w, "reboot")
-	fmt.Fprintln(w, "shutdown")
-	fmt.Fprintln(w, "update")
+	fmt.Fprintf(w, "success, %q\n", html.EscapeString(r.URL.Path))
+	fmt.Fprintf(w, "available endpoints:\n")
+	fmt.Fprintf(w, "reboot\n")
+	fmt.Fprintf(w, "shutdown\n")
+	fmt.Fprintf(w, "update\n")
 }
 
 func aReboot (w http.ResponseWriter, r *http.Request) {
 	cmdOut := command(string("shutdown"), []string{"-r" , "+1"})
-	fmt.Fprintln(w, "initiated reboot")
+	fmt.Fprintf(w, "initiated reboot, %q\n", html.EscapeString(r.URL.Path))
 
 	if cmdOut == nil{
-		fmt.Fprintln(w, "success")
+		fmt.Fprintf(w, "success\n")
 	} else {
-		fmt.Fprintln(w, "failed with %v", cmdOut)
+		fmt.Fprintf(w, "failed with %v\n", cmdOut)
 	}
 }
 
 func aShutdown (w http.ResponseWriter, r *http.Request){
 	cmdOut := command(string("shutdown"), []string{"-h" , "+1"})
-	fmt.Fprintln(w, "initiated shutdown")
+	fmt.Fprintf(w, "initiated shutdown\n")
 
 	if cmdOut == nil {
-		fmt.Fprintln(w, "success")
+		fmt.Fprintf(w, "success\n")
 	}else {
-		fmt.Fprintln(w, "failed with %v", cmdOut)
+		fmt.Fprintf(w, "failed with %v\n", cmdOut)
 	}
 }
 
 func aUpdate (w http.ResponseWriter, r *http.Request){
 	cmdOut := command(string("apt-get"), []string{"upgrade" , "-y"})
-	fmt.Fprintln(w, "initiated update")
+	fmt.Fprintf(w, "initiated update\n")
 
 	if cmdOut == nil{
-		fmt.Fprintln(w, "success")
+		fmt.Fprintf(w, "success\n")
 	}else {
-		fmt.Fprintln(w, "failed with %v", cmdOut)
+		fmt.Fprintf(w, "failed with %v\n", cmdOut)
 	}
 }
 
