@@ -35,7 +35,7 @@ func action (w http.ResponseWriter, r *http.Request){
 }
 
 func aReboot (w http.ResponseWriter, r *http.Request) {
-	cmdOut := command(string("shutdownz"), []string{"-r" , "+1"})
+	cmdOut := command(string("shutdown"), []string{"-r" , "+1"})
 	fmt.Fprintf(w, "initiated reboot, %q\n", html.EscapeString(r.URL.Path))
 
 	if cmdOut == nil{
