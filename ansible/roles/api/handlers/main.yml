@@ -1,0 +1,6 @@
+---
+  - name: restart service
+    service:
+      name: web-server
+      state: restarted
+    become: yes

@@ -1,6 +1,5 @@
 ---
-- hosts:
-    piCalendar
+- hosts: all
   connection: ssh
   remote_user: "{{ ssh_user }}"
 
@@ -8,4 +7,5 @@
     - common
     - reboot
     - dak_calendar
+    - api
     - reboot
