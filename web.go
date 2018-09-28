@@ -18,7 +18,7 @@ func main(){
 	namespace.HandleFunc("/action/shutdown", aShutdown)
 	namespace.HandleFunc("/action/update", aUpdate)
 
-	log.Fatal(http.ListenAndServe(":8081", namespace))
+	log.Fatal(http.ListenAndServe(":6660", namespace))
 }
 
 //Namespace handlers
