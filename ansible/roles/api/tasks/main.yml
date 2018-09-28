@@ -31,14 +31,17 @@
       line: 'export GOPATH={{ gopath }}'
 
   - name: "Go-Lang | Run get commands"
-    shell: "/usr/bin/go get {{ repo }}"
+    shell: "/usr/bin/go get {{ item.value.url }}"
     environment:
       GOPATH: "{{ gopath }}"
+    with_dict: "{{ goRepos }}"
 
   - name: Compile it!
-    command: go build -o main .
+    shell: "go build -o main ."
     args:
       chdir: "{{ gopath }}src/{{ repo }}/"
+    environment:
+      GOPATH: "{{ gopath }}"
 
   - name: Did it Compile?
     stat: "path={{ gopath }}src/{{ repo }}/main"
@@ -46,7 +49,7 @@
 
   - name: Copy Service Files
     template:
-      src: "roles/setup/templates/web-server.service"
+      src: "roles/api/templates/web-server.service"
       dest: "/usr/lib/systemd/system/"
     when: main.stat.exists
     become: yes

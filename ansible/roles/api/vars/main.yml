@@ -12,3 +12,9 @@ packages:
     pkg: golang
   go:
     pkg: git
+
+goRepos:
+  personal:
+    url: github.com/RebelIT/ansible-piDAK
+  mux:
+    url: github.com/gorilla/mux
