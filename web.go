@@ -2,13 +2,31 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	"html"
 	"log"
 	"net/http"
 	"os/exec"
+	"time"
 )
+
+type Result struct{
+	Namespace	string		`json:"namespace"`
+	Message		string		`json:"message"`
+	Status		string		`json:"status"`
+	Timestamp	time.Time	`json:"timestamp"`
+}
+
+type Index struct{
+	Status		string		`json:"status"`
+	Endpoints	[]Endpoint	`json:"endpoints"`
+}
+
+type Endpoint struct{
+	Uri		string	`json:"endpoint"`
+	Method	string	`json:"method"`
+}
 
 func main(){
 	namespace := mux.NewRouter().StrictSlash(true)
@@ -27,43 +45,86 @@ func isAlive (w http.ResponseWriter, r *http.Request){
 }
 
 func action (w http.ResponseWriter, r *http.Request){
-	fmt.Fprintf(w, "success, %q\n", html.EscapeString(r.URL.Path))
-	fmt.Fprintf(w, "available endpoints:\n")
-	fmt.Fprintf(w, "reboot\n")
-	fmt.Fprintf(w, "shutdown\n")
-	fmt.Fprintf(w, "update\n")
+	outputs := Index{
+		Status: "success",
+		Endpoints: []Endpoint{
+			{Uri: "reboot", Method: "GET"},
+			{Uri: "shutdown", Method: "GET"},
+			{Uri: "update", Method: "GET"},
+		},
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(outputs); err != nil {
+		panic(err)
+	}
 }
 
 func aReboot (w http.ResponseWriter, r *http.Request) {
 	cmdOut := command(string("shutdown"), []string{"-r" , "+1"})
-	fmt.Fprintf(w, "initiated reboot, %q\n", html.EscapeString(r.URL.Path))
+
+	outputs := new(Result)
+	outputs.Namespace = string(r.URL.Path)
+	outputs.Message = "initiated reboot"
+	outputs.Timestamp = time.Time(time.Now())
 
 	if cmdOut == nil{
-		fmt.Fprintf(w, "success\n")
+		outputs.Status = "success"
 	} else {
-		fmt.Fprintf(w, "failed with %v\n", cmdOut)
+		outputs.Status = "failed: " + cmdOut.Error()
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(outputs); err != nil {
+		panic(err)
 	}
 }
 
 func aShutdown (w http.ResponseWriter, r *http.Request){
 	cmdOut := command(string("shutdown"), []string{"-h" , "+1"})
-	fmt.Fprintf(w, "initiated shutdown\n")
 
-	if cmdOut == nil {
-		fmt.Fprintf(w, "success\n")
-	}else {
-		fmt.Fprintf(w, "failed with %v\n", cmdOut)
+	outputs := new(Result)
+	outputs.Namespace = string(r.URL.Path)
+	outputs.Message = "initiated shutdown"
+	outputs.Timestamp = time.Time(time.Now())
+
+	if cmdOut == nil{
+		outputs.Status = "success"
+	} else {
+		outputs.Status = "failed: " + cmdOut.Error()
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(outputs); err != nil {
+		panic(err)
 	}
 }
 
 func aUpdate (w http.ResponseWriter, r *http.Request){
 	cmdOut := command(string("apt-get"), []string{"upgrade" , "-y"})
-	fmt.Fprintf(w, "initiated update\n")
+
+	outputs := new(Result)
+	outputs.Namespace = string(r.URL.Path)
+	outputs.Message = "initiated system update"
+	outputs.Timestamp = time.Time(time.Now())
 
 	if cmdOut == nil{
-		fmt.Fprintf(w, "success\n")
-	}else {
-		fmt.Fprintf(w, "failed with %v\n", cmdOut)
+		outputs.Status = "success"
+	} else {
+		outputs.Status = "failed: " + cmdOut.Error()
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(outputs); err != nil {
+		panic(err)
 	}
 }
 
