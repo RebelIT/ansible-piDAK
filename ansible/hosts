@@ -10,9 +10,9 @@
   kitchen
 
 [kitchen:vars]
-  hostname=piCalendar01
+  hostname=calendar
   timezone=US/Central
-  fully_update=false
+  fully_update=true
   wkday_am_on=6
   wkday_am_off=9
   wkday_pm_on=4
@@ -23,4 +23,4 @@
   screen_overscan_right=30
 
 [kitchen]
-  10.0.0.218
+  10.0.0.000
