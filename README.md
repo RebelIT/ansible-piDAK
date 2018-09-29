@@ -20,9 +20,9 @@
 
   ```
   --ask-sudo-pass may be required due to your local setup
-  ansible-playbook piCalendar_setup.yml -i hosts
+  ansible-playbook piCalendar_setup.yml --ask-vault-pass -i hosts
      or
-  ansible-playbook piCalendar_setup.yml -i hosts --ask-sudo-pass
+  ansible-playbook piCalendar_setup.yml -i hosts --ask-vault-pass --ask-sudo-pass
   ```
 
 ### Secrets.yml:
