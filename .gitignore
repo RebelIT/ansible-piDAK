@@ -2,4 +2,4 @@
 *.retry
 *secrets.yml
 */dev/*
-secrets.rb
+*secrets.rb
