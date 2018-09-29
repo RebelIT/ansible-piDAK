@@ -28,6 +28,10 @@ type Endpoint struct{
 	Method	string	`json:"method"`
 }
 
+type Alive struct{
+	Status		string		`json:"status"`
+}
+
 func main(){
 	namespace := mux.NewRouter().StrictSlash(true)
 	namespace.HandleFunc("/", isAlive)
@@ -41,7 +45,14 @@ func main(){
 
 //Namespace handlers
 func isAlive (w http.ResponseWriter, r *http.Request){
-	fmt.Fprintln(w, "imAliveAndServing")
+	outputs := Alive{Status: "success"}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(outputs); err != nil {
+		panic(err)
+	}
 }
 
 func action (w http.ResponseWriter, r *http.Request){
