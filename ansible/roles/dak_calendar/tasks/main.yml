@@ -33,7 +33,7 @@
       @xset -dpms
       @unclutter -idle 5 -root
       #Chromium start
-      @/home/pi/automation/calendar/start_dak.sh
+      @/home/pi/application/calendar/start_dak.sh
 
 - name: Disable Screensaver
   lineinfile:
@@ -43,7 +43,7 @@
 
 - name: Create startup script
   blockinfile:
-    path: /home/pi/automation/calendar/start_dak.sh
+    path: /home/pi/application/calendar/start_dak.sh
     marker: "##<!-- {mark} ANSIBLE MANAGED -->"
     block: |
       # Run browser after boot to desktop
@@ -57,7 +57,7 @@
 - name: Copy display control script
   copy:
     src: ../scripts/rpi-hdmi.sh
-    dest: /home/pi/rpi-hdmi.sh
+    dest: /home/pi/application/calendar/rpi-hdmi.sh
     owner: root
     mode: 0777
 
