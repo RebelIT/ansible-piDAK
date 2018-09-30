@@ -28,5 +28,5 @@
 ### Secrets.yml:
 
   ```
-  dak_token: 'xxx' #your personal DAK url
+  dak_token: 'xxx' #your personal DAK numerical token (not the complete http URL... vars adds the http://xxx prefix)
   ```
