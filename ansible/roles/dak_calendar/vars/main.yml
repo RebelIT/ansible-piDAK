@@ -1,4 +1,6 @@
 ---
+
+ansible_become: true
 dak_url: https://dakboard.com/app?p={{ dak_token }}
 
 cron_jobs:
