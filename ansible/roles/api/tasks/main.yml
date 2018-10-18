@@ -2,7 +2,7 @@
   ##--I didnt want to vendor this small go project so cleaning ensures
   #   you recieve the latest project with go get
   - name: Clean any old versions
-    command: rm -rf {{ gopath }}src/{{ repo }}/
+    command: rm -rf {{ gopath }}src/
     become: yes
 
   - name: Install packages

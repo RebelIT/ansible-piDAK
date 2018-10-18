@@ -1,5 +1,4 @@
 ---
-ansible_become: true
 packages:
   git:
     pkg: "git"
@@ -16,3 +15,5 @@ packages:
   chromium:
     pkg: "chromium-bsu"
     ver: "latest"
+
+ansible_become: true

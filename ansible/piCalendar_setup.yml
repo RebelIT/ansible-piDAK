@@ -8,4 +8,4 @@
     - reboot
     - dak_calendar
     - api
-    - reboot
+    - telegraf
