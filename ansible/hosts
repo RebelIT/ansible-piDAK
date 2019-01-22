@@ -1,11 +1,8 @@
 [piDAK:vars]
   ssh_user=pi
-  gopath=/home/pi/go/
-  telegraf_db=10.0.0.158
+  telegraf_db=10.0.0.106
   app=calendar
   hardware=pi
-  gopath=/home/pi/go/
-  repo=github.com/RebelIT/ansible-piDAK
 
 [piDAK:children]
   piCalendar
@@ -15,14 +12,8 @@
   hostname=piCalendar
   timezone=US/Central
   fully_update=false
-  wkday_am_on=6
-  wkday_am_off=9
-  wkday_pm_on=16
-  wkday_pm_off=21
-  wknd_am_on=6
-  wknd_pm_off=21
   screen_overscan_left=30
   screen_overscan_right=30
 
 [piCalendar]
-  10.0.0.xxx
+  10.0.0.115

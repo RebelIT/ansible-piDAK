@@ -5,7 +5,6 @@
 ### Notes:
 * Ansible for installing and building a DAK wall mounted calendar
 * Telegraf for metrics
-* GO web webService for controlling your calendar via rest API
 * Tested on Stretch - NOOBS
 * Assumptions:
    You have a base pi with NOOBS installed and on the network
@@ -16,8 +15,6 @@
 
 ### Usage:
 * Update `hosts` in hosts with your server IP or Hostname
-* Update `gopath` in hosts if you want it changed
-* Update `repo` in hosts if you use this for another project
 * Update `hosts` with any other relevant info specific to your setup
 
   ```
@@ -32,3 +29,6 @@
   ```
   dak_token: 'xxx' #your personal DAK API token (not the complete http URL... vars adds the http://xxx prefix)
   ```
+
+### API to control it!
+Run the [rpIoT](https://github.com/RebelIT/rpIoT) ansible against it using the /api/display/{on|off} endpoints to turn the display on and off on a schedule.

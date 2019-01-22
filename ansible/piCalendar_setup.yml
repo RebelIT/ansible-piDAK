@@ -7,5 +7,4 @@
     - common
     - reboot
     - dak_calendar
-    - api
     - telegraf
